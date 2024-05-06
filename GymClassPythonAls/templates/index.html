@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saludos</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="box-content min-w-full  min-h-screen bg-[#09090B] flex flex-col content-center items-center p-0 m-0 text-black font-mono text-white">
+<header class="bg-[#09090B] border-b border-gray-500 p-2 flex flex-col sm:flex-row justify-center items-center text-center gap-4 text-gray-400 w-full overflow-auto">
+    <div class="max-w-7xl w-full flex flex-col sm:flex-row sm:justify-between">
+        {% if isAunthenticated %}
+        <h2>{{ user.email }}</h2>
+        <a href="/logout">
+            <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                Logout
+            </button>
+        </a>
+        {% else %}
+        <a href="/login">
+            <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                Login
+            </button>
+        </a>
+        <a href="/register">
+            <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                Register
+            </button>
+        </a>
+        {% endif %}
+    </div>
+</header>
+
+<h1>Hola, bienvenido</h1>
+<a href="/login">
+    <button>Login</button>
+</a>
+<a href="/register">
+    <button>Register</button>
+</a>
+</body>
+</html>
