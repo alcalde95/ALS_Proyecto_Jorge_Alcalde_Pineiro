@@ -84,12 +84,10 @@
     <h1 class="text-4xl text-center underline m-5">Sesiones</h1>
     <ul class="grid grid-cols-3 gap-3 ">
         {% for session in sessions %}
-        <a href="/classes/{{clase.id}}/{{session.date}}">
-            <li class="border border-gray-500 rounded-lg p-2 text-center">
+        <li class="border border-gray-500 rounded-lg p-2 text-center">
                 <h2>{{session.date}}</h2>
                 <p>{{session.instructor}}</p>
             </li>
-        </a>
         {% endfor %}
     </ul>
 </div>

@@ -2,9 +2,11 @@ import flask
 from model.User import User
 from model.Clase import Clase
 from model.Session import Session
+from model.Inscriptions import Inscription
 import sirope
 from flask import Blueprint, render_template, redirect, request
 import flask_login
+import itertools
 srp = sirope.Sirope()
 
 classes_bp = Blueprint("classes", __name__,template_folder="templates")
@@ -104,10 +106,26 @@ def delete_class(id):
 @flask_login.login_required
 def myClasses():
     clases = srp.filter(Clase, lambda c: c.creador == flask_login.current_user.email)
+
     toRet = {
-        "clases": clases,
+        "clases": list(clases),
         "user": flask_login.current_user,
         "isAunthenticated": flask_login.current_user.is_authenticated
     }
     return flask.render_template("myClasses.html", **toRet)
+
+@classes_bp.route("/inscribedClasses", methods=["GET"])
+@flask_login.login_required
+def inscribedClasses():
+    inscriptions = srp.filter(Inscription, lambda i: i.user == flask_login.current_user.email)
+    classesIds = set(map(lambda i: i.class_id, inscriptions))
+
+    clases = srp.filter(Clase, lambda c: c.id in classesIds)
+    toRet = {
+        "clases": list(clases),
+        "user": flask_login.current_user,
+        "isAunthenticated": flask_login.current_user.is_authenticated
+    }
+    return flask.render_template("inscribedClasses.html", **toRet)
+
 

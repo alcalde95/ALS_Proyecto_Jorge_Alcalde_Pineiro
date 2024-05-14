@@ -40,12 +40,21 @@
     </div>
 </header>
 <h1>Clases</h1>
-<a href="/myClasses">
-    <button class="bg-[#09090B] w-auto min-w-52 h-10 text-white p-1 rounded-md  hover:border-green-500 hover:text-green-500 ease-in-out duration-200 border border-gray-500"
-    >
-        Mis Clases
-    </button>
-</a>
+<nav class="flex flex-row gap-4 flex-wrap">
+    <a href="/myClasses">
+        <button class="bg-[#09090B] w-auto min-w-52 h-10 text-white p-1 rounded-md  hover:border-green-500 hover:text-green-500 ease-in-out duration-200 border border-gray-500"
+        >
+            Mis Clases
+        </button>
+    </a>
+
+    <a href="/inscribedClasses">
+        <button class="bg-[#09090B] w-auto min-w-52 h-10 text-white p-1 rounded-md  hover:border-green-500 hover:text-green-500 ease-in-out duration-200 border border-gray-500"
+        >
+            Clases Inscritas
+        </button>
+    </a>
+</nav>
 <form class="w-11/12 md:w-4/6 max-w-2xl gap-2 flex flex-col items-center bg-[#1C1917] p-2 rounded-lg border-gray-500 border mt-2 text-white"
       action="/classes" method="post">
     <div class="relative w-full min-w-[200px] h-10">
@@ -130,32 +139,35 @@
 {% if clases %}
 <ul class="grid grid-cols-1 sm:grid-cols-3 h-auto gap-4 p-2 w-full place-items-center lg:place-items-stretch max-w-7xl">
     {% for clase in clases %}
-    <li class="flex flex-col items-center border w-11/12 md:w-10/12  lg:w-auto border-gray-500 bg-transparent m-2 rounded-md p-2  transition duration-200 ease-in-out relative text-white hover:cursor-pointer hover:text-green-500 hover:border-green-500"
-    >
-        <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
+    <a href="/classes/{{clase.id}}/clients">
+        <li class="flex flex-col items-center border w-11/12 md:w-10/12  lg:w-auto border-gray-500 bg-transparent m-2 rounded-md p-2  transition duration-200 ease-in-out relative text-white hover:cursor-pointer hover:text-green-500 hover:border-green-500"
         >
-            {{clase.nombre}}
-        </h1>
-        <textarea class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white bg-transparent"
-                  disabled
-                  rows="3"
-                  cols="30"
-        >
+            <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                {{clase.nombre}}
+            </h1>
+            <textarea
+                    class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white bg-transparent"
+                    disabled
+                    rows="3"
+                    cols="30"
+            >
             {{clase.descripcion}}
         </textarea>
-        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
-        >
-            Duracion: {{clase.duracion}}
-        </p>
-        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
-        >
-            Capacidad Maxima: {{clase.capacidadMaxima}}
-        </p>
-        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
-        >
-            {{clase.creador}}
-        </p>
-    </li>
+            <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                Duracion: {{clase.duracion}}
+            </p>
+            <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                Capacidad Maxima: {{clase.capacidadMaxima}}
+            </p>
+            <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                {{clase.creador}}
+            </p>
+        </li>
+    </a>
     {% endfor %}
 </ul>
 

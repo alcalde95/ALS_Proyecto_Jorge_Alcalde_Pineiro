@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Clases</title>
+    <title>Clases Inscritas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="box-content min-w-full  min-h-screen bg-[#09090B] flex flex-col content-center items-center p-0 m-0 text-black font-mono">
@@ -40,21 +40,22 @@
     </div>
 </header>
 
-<h1>Mis clases</h1>
+<h1 class="text-white text-3xl m-5">Clases Inscritas</h1>
 {% if clases %}
 <ul class="grid grid-cols-1 sm:grid-cols-3 h-auto gap-4 p-2 w-full place-items-center lg:place-items-stretch max-w-7xl">
     {% for clase in clases %}
     <li class="flex flex-col items-center border w-11/12 md:w-10/12  lg:w-auto border-gray-500 bg-transparent m-2 rounded-md p-2  transition duration-200 ease-in-out relative text-white hover:cursor-pointer hover:text-green-500 hover:border-green-500 gap-2"
     >
         <a href='/classes/{{clase.id}}'>
-        <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
-        >
-            {{clase.nombre}}
-        </h1></a>
-        <textarea class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white bg-transparent"
-                  disabled
-                  rows="3"
-                  cols="30"
+            <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                {{clase.nombre}}
+            </h1></a>
+        <textarea
+                class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white bg-transparent"
+                disabled
+                rows="3"
+                cols="30"
         >
             {{clase.descripcion}}
         </textarea>
@@ -87,7 +88,7 @@
 </ul>
 
 {% else %}
-<p class="text-white">No hay clases</p>
+<p class="text-white">No está inscrito a ninguna clase</p>
 {% endif %}
 
 
