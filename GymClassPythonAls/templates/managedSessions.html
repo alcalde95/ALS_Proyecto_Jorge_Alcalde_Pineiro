@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sesiones</title>
+    <title>ManagedSessions</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="box-content min-w-full  min-h-screen bg-[#09090B] flex flex-col content-center items-center p-0 m-0 text-black font-mono gap-2">
@@ -19,11 +19,11 @@
                 </button>
             </a>
             <a href="javascript:history.back()">
-            <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
-            >
-                Volver
-            </button>
-        </a>
+                <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
+                >
+                    Volver
+                </button>
+            </a>
         </div>
 
 
@@ -59,39 +59,22 @@
     <p>Capacidad:{{clase.capacidadMaxima}}</p>
     <p>Creador:{{clase.creador}}</p>
 </div>
-<div class="text-white">
-    <h1 class="text-4xl text-center underline m-5">Sesiones</h1>
-    <ul class="grid grid-cols-3 gap-3 ">
-        {% for session in inscribedSessions %}
-        <li class="border border-gray-500 rounded-lg p-2 text-center">
-            <h2 class="m-2">{{session.date}}</h2>
-            <p class="m-2">Instructor:{{session.instructor}}</p>
-            <form method="post" action="/classes/{{clase.id}}/clients/unsubscribe">
-                <input type="hidden" name="dateSession" id="dateSession" value="{{session.date}}">
-                <input type="hidden" name="instructorSession" id="instructorSession" value="{{session.instructor}}">
-                <button class="bg-red-500 w-auto min-w-52 h-10 text-black p-1 rounded-md  hover:bg-red-700 hover:border-red-700 ease-in-out duration-200 border border-red-500 text-white">
-                    Desinscribirse
-                </button>
-            </form>
-        </li>
-        {% endfor %}
-        {% for session in nonInscribedSessions %}
-        <li class="border border-gray-500 rounded-lg p-2 text-center">
-            <h2 class="m-2">{{session.date}}</h2>
-            <p class="m-2">Instructor:{{session.instructor}}</p>
-            <form method="post" action="/classes/{{clase.id}}/clients">
-                <input type="hidden" name="date" id="date" value="{{session.date}}">
-                <input type="hidden" name="instructor" id="instructor" value="{{session.instructor}}">
-                <button class="bg-white w-auto min-w-52 h-10 text-black p-1 rounded-md  hover:bg-gray-300 ease-in-out duration-200 border border-white">
-                    Inscribirse
-                </button>
-            </form>
-        </li>
-        {% endfor %}
 
+
+<div class="text-white text-center">
+    <h1 class="text-4xl text-center underline m-5">Sesiones</h1>
+    {% if sessions %}
+    <ul class="grid grid-cols-3 gap-3 ">
+
+        {% for session in sessions %}
+        <li class="border border-gray-500 rounded-lg p-2 text-center">
+            <h2>{{session.date}}</h2>
+            <p>{{session.instructor}}</p>
+        </li>
+        {% endfor %}
     </ul>
-    {% if not inscribedSessions and not nonInscribedSessions %}
-    <p class="text-white">No hay sesiones disponibles</p>
+    {% else %}
+    <p class="text-center">No hay sesiones</p>
     {% endif %}
 </div>
 

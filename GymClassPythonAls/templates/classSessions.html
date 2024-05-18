@@ -19,11 +19,11 @@
                 </button>
             </a>
             <a href="javascript:history.back()">
-            <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
-            >
-                Volver
-            </button>
-        </a>
+                <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
+                >
+                    Volver
+                </button>
+            </a>
         </div>
 
 
@@ -63,6 +63,13 @@
       method="post"
       action="/classes/{{clase.id}}">
     <input class="text-black border border-gray-500 rounded-md w-full" type="datetime-local" name="date" id="date">
+    <p>Estos son los posibles instructores</p>
+    <select  class="w-full bg-transparent border border-gray-500 rounded-md">
+        {% for instructor in instructors %}
+        <option class="bg-black" value="{{instructor.id}}">{{instructor.email}}</option>
+        {% endfor %}
+    </select>
+    <p>Introduzca el que quiere</p>
     <div class="relative w-full min-w-[200px] h-10">
         <input
                 class="peer h-full w-full rounded-[7px] border border-green-500 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal  outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-green-500 placeholder-shown:border-t-green-500 focus:border-2 focus:border-green-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-gray-500"
@@ -88,21 +95,33 @@
         </ul>
     </div>
     {% endif %}
-    <button class="bg-white w-auto min-w-52 h-10 text-black p-1 rounded-md  hover:bg-gray-300 ease-in-out duration-200 border border-white ">
+    <button class="bg-white w-full min-w-52 h-10 text-black p-1 rounded-md  hover:bg-gray-300 ease-in-out duration-200 border border-white ">
         Crear
     </button>
 </form>
 
-<div class="text-white">
+<div class="text-white text-center">
     <h1 class="text-4xl text-center underline m-5">Sesiones</h1>
+    {% if sessions %}
     <ul class="grid grid-cols-3 gap-3 ">
+
         {% for session in sessions %}
         <li class="border border-gray-500 rounded-lg p-2 text-center">
-                <h2>{{session.date}}</h2>
-                <p>{{session.instructor}}</p>
-            </li>
+            <h2>{{session.date}}</h2>
+            <p>{{session.instructor}}</p>
+            <form method="post" action="/classes/{{clase.id}}/delete">
+                 <input type="hidden" name="dateD" id="dateD" value="{{session.date}}">
+                <input type="hidden" name="instructorD" id="instructorD" value="{{session.instructor}}">
+                <button class="bg-red-500 w-auto min-w-52 h-10 text-black p-1 rounded-md  hover:bg-red-700 hover:border-red-700 ease-in-out duration-200 border border-red-500 text-white">
+                    Eliminar
+                </button>
+            </form>
+        </li>
         {% endfor %}
     </ul>
+    {% else %}
+    <p class="text-center">No hay sesiones</p>
+    {% endif %}
 </div>
 
 </body>

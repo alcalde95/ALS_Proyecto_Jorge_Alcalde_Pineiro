@@ -1,3 +1,6 @@
+import datetime
+from datetime import datetime
+
 import flask
 from model.User import User
 from model.Clase import Clase
@@ -11,13 +14,15 @@ srp = sirope.Sirope()
 
 sessions_bp = Blueprint("sessions", __name__, template_folder="templates")
 
-
+date_format = '%Y-%m-%dT%H:%M'
 @sessions_bp.route("/classes/<id>", methods=["GET", "POST"])
 @flask_login.login_required
 def class_sessions(id):
     if flask.request.method == "POST":
         date = flask.request.form.get("date")
+        print(flask.request.form)
         instructor = flask.request.form.get("instructor")
+        print(date, instructor,"pepe")
         insert = True
         if not date or not instructor:
             flask.flash("Faltan campos por llenar")
@@ -27,21 +32,59 @@ def class_sessions(id):
         if not insturctor:
             flask.flash("El instructor no existe")
             insert = False
+        if date:
+            if datetime.strptime(date, date_format) < datetime.now():
+                flask.flash("La fecha no puede ser menor a la actual")
+                insert = False
 
         if not insert:
             return flask.redirect("/classes/" + id)
-        session = Session(id, date, instructor)
-        srp.save(session)
+
+        existsSession = srp.find_first(Session, lambda s: s.class_id == id and s.date == date and s.instructor == instructor)
+        if existsSession:
+            flask.flash("Ya existe una sesión con esa fecha e instructor")
+        else:
+            session = Session(id, date, instructor)
+            srp.save(session)
     clase = srp.find_first(Clase, lambda c: c.id == id)
     sessions = srp.filter(Session, lambda s: s.class_id == id)
+    instructors = srp.filter(User, lambda u: u.email != "admin")
     toRet = {
         "clase": clase,
-        "sessions": sessions,
+        "sessions": list(sessions),
+        "instructors": list(instructors),
         "user": flask_login.current_user,
         "isAunthenticated": flask_login.current_user.is_authenticated
     }
     return flask.render_template("classSessions.html", **toRet)
 
+@sessions_bp.route("/classes/<id>/managed", methods=["GET"])
+@flask_login.login_required
+def class_sessions_managed(id):
+
+    clase = srp.find_first(Clase, lambda c: c.id == id)
+    sessions = srp.filter(Session, lambda s: s.class_id == id and s.instructor == flask_login.current_user.email)
+    toRet = {
+        "clase": clase,
+        "sessions": list(sessions),
+        "user": flask_login.current_user,
+        "isAunthenticated": flask_login.current_user.is_authenticated
+    }
+    return flask.render_template("managedSessions.html", **toRet)
+
+
+@sessions_bp.route("/classes/<id>/delete", methods=["POST"])
+@flask_login.login_required
+def class_sessions_delete(id):
+    date = flask.request.form.get("dateD")
+    instructor = flask.request.form.get("instructorD")
+    session = srp.find_first(Session, lambda s: s.class_id == id and s.date == date and s.instructor == instructor)
+    if session is not None:
+        srp.delete(session.__oid__)
+        inscriptions = srp.filter(Inscription, lambda i: i.class_id == id and i.date == date and i.instructor == instructor)
+        for ins in inscriptions:
+            srp.delete(ins.__oid__)
+    return redirect("/classes/" + id)
 
 @sessions_bp.route("/classes/<id>/clients", methods=["GET", "POST"])
 @flask_login.login_required

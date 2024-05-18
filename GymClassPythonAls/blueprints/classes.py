@@ -11,45 +11,14 @@ srp = sirope.Sirope()
 
 classes_bp = Blueprint("classes", __name__,template_folder="templates")
 
-@classes_bp.route("/classes", methods=["GET", "POST"])
+@classes_bp.route("/classes", methods=["GET"])
 @flask_login.login_required
 def classes():
-    if flask.request.method == "POST":
-        nombre = flask.request.form.get("nombre")
-        descripcion = flask.request.form.get("descripcion")
-        capacidadMaxima = flask.request.form.get("capacidadMaxima")
-        duracion = flask.request.form.get("duracion")
-        creador = flask_login.current_user.email
-        insert = True
-        if not nombre or not descripcion or not capacidadMaxima or not duracion:
-            flask.flash("Faltan campos por llenar")
-            insert = False
-
-        if not capacidadMaxima.isdigit():
-            flask.flash("La capacidad máxima debe ser un número")
-            insert = False
-        if not duracion.isdigit():
-            flask.flash("La duración debe ser un número")
-            insert = False
-        if len(descripcion) < 20:
-            flask.flash("La duración debe ser mayor a 20 caracteres")
-            insert = False
-        if len(nombre) < 3:
-            flask.flash("El nombre debe ser mayor a 3 caracteres")
-            insert = False
-
-        if not insert:
-            return flask.redirect("/classes")
-
-
-        clase = Clase(nombre, descripcion, capacidadMaxima, duracion, creador)
-
-        srp.save(clase)
 
     clases = srp.load_all(Clase)
 
     toRet = {
-        "clases": clases,
+        "clases": list(clases),
         "user": flask_login.current_user,
         "isAunthenticated": flask_login.current_user.is_authenticated
     }
@@ -96,15 +65,50 @@ def delete_class(id):
         return flask.redirect("/")
 
     sessions = srp.filter(Session, lambda s: s.class_id == clase.id)
+    inscriptions = srp.filter(Inscription, lambda i: i.class_id == clase.id)
     for session in sessions:
         srp.delete(session.__oid__)
+
+    for ins in inscriptions:
+        srp.delete(ins.__oid__)
 
     srp.delete(clase.__oid__)
     return flask.redirect("/myClasses")
 
-@classes_bp.route("/myClasses", methods=["GET"])
+@classes_bp.route("/myClasses", methods=["GET", "POST"])
 @flask_login.login_required
 def myClasses():
+    if flask.request.method == "POST":
+        nombre = flask.request.form.get("nombre")
+        descripcion = flask.request.form.get("descripcion")
+        capacidadMaxima = flask.request.form.get("capacidadMaxima")
+        duracion = flask.request.form.get("duracion")
+        creador = flask_login.current_user.email
+        insert = True
+        if not nombre or not descripcion or not capacidadMaxima or not duracion:
+            flask.flash("Faltan campos por llenar")
+            insert = False
+
+        if not capacidadMaxima.isdigit():
+            flask.flash("La capacidad máxima debe ser un número")
+            insert = False
+        if not duracion.isdigit():
+            flask.flash("La duración debe ser un número")
+            insert = False
+        if len(descripcion) < 20:
+            flask.flash("La duración debe ser mayor a 20 caracteres")
+            insert = False
+        if len(nombre) < 3:
+            flask.flash("El nombre debe ser mayor a 3 caracteres")
+            insert = False
+
+        if not insert:
+            return flask.redirect("/myClasses")
+
+
+        clase = Clase(nombre, descripcion, capacidadMaxima, duracion, creador)
+
+        srp.save(clase)
     clases = srp.filter(Clase, lambda c: c.creador == flask_login.current_user.email)
 
     toRet = {
@@ -127,5 +131,19 @@ def inscribedClasses():
         "isAunthenticated": flask_login.current_user.is_authenticated
     }
     return flask.render_template("inscribedClasses.html", **toRet)
+
+@classes_bp.route("/managedClasses", methods=["GET"])
+@flask_login.login_required
+def managedClasses():
+    sessions = srp.filter(Session, lambda s: s.instructor == flask_login.current_user.email)
+    classesIds = set(map(lambda i: i.class_id, sessions))
+
+    clases = srp.filter(Clase, lambda c: c.id in classesIds)
+    toRet = {
+        "clases": list(clases),
+        "user": flask_login.current_user,
+        "isAunthenticated": flask_login.current_user.is_authenticated
+    }
+    return flask.render_template("managedClasses.html", **toRet)
 
 
