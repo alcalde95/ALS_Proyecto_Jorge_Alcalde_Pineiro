@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clases Inscritas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="box-content min-w-full  min-h-screen bg-[#09090B] flex flex-col content-center items-center p-0 m-0 text-black font-mono">
+<header class="bg-[#09090B] border-b border-gray-500 p-2 flex flex-col sm:flex-row justify-center items-center text-center gap-4 text-gray-400 w-full overflow-auto">
+    <div class="max-w-7xl w-full flex flex-row justify-between items-center">
+
+        {% if isAunthenticated %}
+
+        <div class="flex flex-row flex-wrap gap-4">
+            <a href="/">
+                <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
+                >
+                    Inicio
+                </button>
+            </a>
+            <a href="javascript:history.back()">
+            <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
+            >
+                Volver
+            </button>
+        </a>
+        </div>
+
+
+        <div class="flex flex-row flex-wrap items-center">
+            <p class="text-center">{{ user.email }}</p>
+            <a href="/logout">
+                <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                    Logout
+                </button>
+            </a>
+        </div>
+
+
+        {% else %}
+        <a href="/login">
+            <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                Login
+            </button>
+        </a>
+        <a href="/register">
+            <button class="bg-[#09090B] w-20 h-10 text-gray-400  p-1 rounded-md mr-2 hover:text-white ease-in-out duration-100">
+                Register
+            </button>
+        </a>
+        {% endif %}
+
+    </div>
+</header>
+
+<h1 class="text-white text-3xl m-5">Clases Inscritas</h1>
+{% if clases %}
+<ul class="grid grid-cols-1 sm:grid-cols-3 h-auto gap-4 p-2 w-full place-items-center lg:place-items-stretch max-w-7xl">
+    {% for clase in clases %}
+    <li class="flex flex-col items-center border w-11/12 md:w-10/12  lg:w-auto border-gray-500 bg-transparent m-2 rounded-md p-2  transition duration-200 ease-in-out relative text-white hover:cursor-pointer hover:text-green-500 hover:border-green-500 gap-2"
+    >
+        <a href='/classes/{{clase.id}}/clients'>
+            <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            >
+                {{clase.nombre}}
+            </h1></a>
+        <textarea
+                class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white bg-transparent"
+                disabled
+                rows="3"
+                cols="30"
+        >{{clase.descripcion}}
+        </textarea>
+        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+        >
+            Duracion: {{clase.duracion}}
+        </p>
+        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+        >
+            Capacidad Maxima: {{clase.capacidadMaxima}}
+        </p>
+        <p class="text-lg m-2 max-w-60 lg:max-w-max overflow-hidden text-center transition duration-200 ease-in-out text-white"
+        >
+            {{clase.creador}}
+        </p>
+
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p class="text-white">No está inscrito a ninguna clase</p>
+{% endif %}
+
+
+</body>
+</html>
