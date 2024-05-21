@@ -8,7 +8,7 @@ Repositorio: https://github.com/alcalde95/ALS_Proyecto_Jorge_Alcalde_Pineiro
 
 
 
-#Base de datos
+# Base de datos
 ![alt text](image.png)
 Entidades:
 - User: usuario con email y contraseña
@@ -26,16 +26,13 @@ Entidades:
 Página de inicio desde donde se puede tanto iniciar sesión como registrarse.
 Si está registrado podrá acceder a ver todas las clases
 
-
 Una vez dentro podrá acceder a las clases pulsando Clases
 
 Desde aquí podrá acceder a las clases creadas por el usuario, aquellas en las que está al menos inscrito a una sesión y a aquellas en las imparte por lo menos una sesión. Para poder acceder a la clase para ver sus sesiones se deberá pulsar enigma del nombre de la sesión
 
-
 Esto se aplica tanto desde esta página, para poder ver las sesiones e inscribirse, como en la página de Mis clases, para acceder y ver las sesiones y poder tanto añadir nuevas sesiones como borrarlas. Si se accede desde clases gestionadas se mostrarán aquellas clases que gestiona el usuario, sin poder realizar ninguna modificación
 
-
-#Rutas
+# Rutas
 
 - Página de inicio: /
 - Inicio de sesión: /login
@@ -48,7 +45,7 @@ Esto se aplica tanto desde esta página, para poder ver las sesiones e inscribir
 - Página visualización clases con al menos 1 inscripción: /inscribedClasses
 - Página visualización clases con al menos 1 sesión gestionada: /managedClasses
 
-#Instalación
+# Instalación
 
 Se debe tener instalado:
 - Flask 3.0.3
@@ -58,7 +55,7 @@ Se debe tener instalado:
 - Python 3.12.2
 
 
-#Ejecución
+# Ejecución
 
 Primero necesita tener un servidor Redis levantado y en ejecución
 
