@@ -8,16 +8,17 @@ Repositorio: https://github.com/alcalde95/ALS_Proyecto_Jorge_Alcalde_Pineiro
 
 
 
-Base de datos
+#Base de datos
+
 Entidades:
-User: usuario con email y contraseña
-Clase: clases que contendrán un uuid siendo este el identificador único, un nombre, la capacidad máxima de personas que se pueden inscribir a cada sesión,duración de cada sesión, una descripción y el creador de esta sesión.
-Session: sesión asociada a una clase que contendrá una fecha e un instructor que impartirá la clase, así como class_id, la clase de la que cuelga esta sesión
-Inscription : inscripción entre un usuario y una clase
-A nivel de funcionalidad habrá un usuario admin admin, que podrá borrar usuarios.
-Como usuario,podrás crear,editar y borrar tus propias clases. A su vez,podrás crear sesiones para cada clase y también borrarlas.
-Los usuarios también podrán inscribirse a las diferentes sesiones de las clases y a también desinscribirse.
-Los usuarios podrán iniciar sesión y registrarse
+- User: usuario con email y contraseña
+- Clase: clases que contendrán un uuid siendo este el identificador único, un nombre, la capacidad máxima de personas que se pueden inscribir a cada sesión,duración de cada sesión, una descripción y el creador de esta sesión.
+- Session: sesión asociada a una clase que contendrá una fecha e un instructor que impartirá la clase, así como class_id, la clase de la que cuelga esta sesión
+- Inscription : inscripción entre un usuario y una clase
+- A nivel de funcionalidad habrá un usuario admin admin, que podrá borrar usuarios.
+- Como usuario,podrás crear,editar y borrar tus propias clases. A su vez,podrás crear sesiones para cada clase y también borrarlas.
+- Los usuarios también podrán inscribirse a las diferentes sesiones de las clases y a también desinscribirse.
+- Los usuarios podrán iniciar sesión y registrarse
 
 #Manual de usuario
 
