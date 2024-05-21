@@ -55,12 +55,12 @@
 
 <h1 class="text-white text-3xl m-5">Clases Inscritas</h1>
 {% if clases %}
-<ul class="grid grid-cols-1 sm:grid-cols-3 h-auto gap-4 p-2 w-full place-items-center lg:place-items-stretch max-w-7xl">
+<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-auto gap-4 p-2 w-auto place-items-center lg:place-items-stretch max-w-7xl m-2">
     {% for clase in clases %}
     <li class="flex flex-col items-center border w-11/12 md:w-10/12  lg:w-auto border-gray-500 bg-transparent m-2 rounded-md p-2  transition duration-200 ease-in-out relative text-white hover:cursor-pointer hover:text-green-500 hover:border-green-500 gap-2"
     >
         <a href='/classes/{{clase.id}}/clients'>
-            <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white"
+            <h1 class="font-bold text-3xl m-2 max-w-60 lg:max-w-max underline hover:text-green-700 overflow-hidden text-center transition duration-200 ease-in-out text-white overflow-hidden max-h-10"
             >
                 {{clase.nombre}}
             </h1></a>

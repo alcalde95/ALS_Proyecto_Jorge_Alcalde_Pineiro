@@ -18,7 +18,7 @@
                     Inicio
                 </button>
             </a>
-            <a href="javascript:history.back()">
+            <a href="/classes">
             <button class="bg-[#09090B] w-auto h-10 text-gray-400 rounded-md hover:text-white ease-in-out duration-100"
             >
                 Volver
@@ -61,7 +61,17 @@
 </div>
 <div class="text-white">
     <h1 class="text-4xl text-center underline m-5">Sesiones</h1>
-    <ul class="grid grid-cols-3 gap-3 ">
+    {%set error_msq_list = get_flashed_messages()%}
+    {% if error_msq_list %}
+    <div id="dvError" class="text-white w-full">
+        <ul>
+            {% for error_msq in error_msq_list %}
+            <li class="bg-red-600 text-white p-2 rounded-md m-2">{{ error_msq }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <ul class="flex flex-row flex-wrap md:grid  grid-cols-3 gap-3 justify-center">
         {% for session in inscribedSessions %}
         <li class="border border-gray-500 rounded-lg p-2 text-center">
             <h2 class="m-2">{{session.date}}</h2>

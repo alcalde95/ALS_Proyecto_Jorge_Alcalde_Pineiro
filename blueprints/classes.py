@@ -16,6 +16,8 @@ classes_bp = Blueprint("classes", __name__,template_folder="templates")
 @flask_login.login_required
 def classes():
 
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     clases = srp.load_all(Clase)
 
     toRet = {
@@ -28,6 +30,8 @@ def classes():
 @classes_bp.route("/classes/edit/<id>", methods=["GET", "POST"])
 @flask_login.login_required
 def edit_class(id):
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     clase = srp.find_first(Clase, lambda c: c.id == id)
 
     if flask.request.method == "POST":
@@ -111,6 +115,8 @@ def delete_class(id):
 @classes_bp.route("/myClasses", methods=["GET", "POST"])
 @flask_login.login_required
 def myClasses():
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     if flask.request.method == "POST":
         nombre = flask.request.form.get("nombre")
         descripcion = flask.request.form.get("descripcion")
@@ -165,6 +171,8 @@ def myClasses():
 @classes_bp.route("/inscribedClasses", methods=["GET"])
 @flask_login.login_required
 def inscribedClasses():
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     inscriptions = srp.filter(Inscription, lambda i: i.user == flask_login.current_user.email)
     classesIds = set(map(lambda i: i.class_id, inscriptions))
 
@@ -179,6 +187,8 @@ def inscribedClasses():
 @classes_bp.route("/managedClasses", methods=["GET"])
 @flask_login.login_required
 def managedClasses():
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     sessions = srp.filter(Session, lambda s: s.instructor == flask_login.current_user.email)
     classesIds = set(map(lambda i: i.class_id, sessions))
 

@@ -13,11 +13,12 @@ import flask_login
 srp = sirope.Sirope()
 
 sessions_bp = Blueprint("sessions", __name__, template_folder="templates")
-#TODO: AÑADIR VERIFICACIÓN DE QUE NO EXISTEN MÁS PERSONAS INSCRITAS QUE EL NÚMERO MÁXIMO PUESTO EN LA CLASE DE LA QUE CAEN
 date_format = '%Y-%m-%dT%H:%M'
 @sessions_bp.route("/classes/<id>", methods=["GET", "POST"])
 @flask_login.login_required
 def class_sessions(id):
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     if flask.request.method == "POST":
         date = flask.request.form.get("date")
         print(flask.request.form)
@@ -61,7 +62,8 @@ def class_sessions(id):
 @sessions_bp.route("/classes/<id>/managed", methods=["GET"])
 @flask_login.login_required
 def class_sessions_managed(id):
-
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
     clase = srp.find_first(Clase, lambda c: c.id == id)
     sessions = srp.filter(Session, lambda s: s.class_id == id and s.instructor == flask_login.current_user.email)
     toRet = {
@@ -76,6 +78,9 @@ def class_sessions_managed(id):
 @sessions_bp.route("/classes/<id>/delete", methods=["POST"])
 @flask_login.login_required
 def class_sessions_delete(id):
+    clase = srp.find_first(Clase, lambda c: c.id == id)
+    if clase.creador != flask_login.current_user.email:
+        return flask.redirect("/")
     date = flask.request.form.get("dateD")
     instructor = flask.request.form.get("instructorD")
     session = srp.find_first(Session, lambda s: s.class_id == id and s.date == date and s.instructor == instructor)
@@ -89,23 +94,33 @@ def class_sessions_delete(id):
 @sessions_bp.route("/classes/<id>/clients", methods=["GET", "POST"])
 @flask_login.login_required
 def class_sessions_clients(id):
+    if flask_login.current_user.email == "admin":
+        return flask.redirect("/admin")
+    clase = srp.find_first(Clase, lambda c: c.id == id)
+
     if flask.request.method == "POST":
         date = flask.request.form.get("date")
         instructor = flask.request.form.get("instructor")
         class_id = id
         user = flask_login.current_user.email
         exist = srp.find_first(Inscription, lambda i: i.class_id == class_id and i.date == date and i.user == user and i.instructor == instructor)
-        if exist:
-            flask.flash("Ya te has inscrito a esta clase")
-            print("Nop")
-        else:
-            ins = Inscription(class_id, date, instructor, user)
-            srp.save(ins)
 
-    clase = srp.find_first(Clase, lambda c: c.id == id)
+        if instructor == user:
+            flask.flash("No te puedes inscribir a una sesión que gestionas")
+        else:
+            if exist:
+                flask.flash("Ya te has inscrito a esta clase")
+            else:
+
+                inscriptionsCounts = srp.filter(Inscription, lambda i: i.class_id == class_id and i.date == date and i.instructor == instructor)
+                if len(list(inscriptionsCounts)) >= int(srp.find_first(Clase, lambda c: c.id == class_id).capacidadMaxima):
+                    flask.flash("No hay cupo disponible")
+                else:
+                    ins = Inscription(class_id, date, instructor, user)
+                    srp.save(ins)
+
     sessions = list(srp.filter(Session, lambda s: s.class_id == id))
     inscriptions = list(srp.filter(Inscription, lambda i: i.class_id == id and i.user == flask_login.current_user.email))
-    print(len(list(inscriptions)))
 
     inscribedSessions = []
     nonInscribedSessions = list(sessions)

@@ -1,11 +1,8 @@
 import flask
 import json
 import sirope
-from datetime import datetime
 import flask_login
 from model.User import User
-from model.Clase import Clase
-from model.Session import Session
 from blueprints.users import users_bp
 from blueprints.classes import classes_bp
 from blueprints.sessions import sessions_bp
@@ -52,7 +49,7 @@ def land():
 @app.route("/logout")
 def logout():
     flask_login.logout_user()
-    return flask.redirect("/")
+    return flask.redirect("/login")
 
 
 if __name__ == "__main__":
