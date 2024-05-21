@@ -9,7 +9,7 @@ Repositorio: https://github.com/alcalde95/ALS_Proyecto_Jorge_Alcalde_Pineiro
 
 
 # Base de datos
-![alt text](image.png)
+
 Entidades:
 - User: usuario con email y contraseña
 - Clase: clases que contendrán un uuid siendo este el identificador único, un nombre, la capacidad máxima de personas que se pueden inscribir a cada sesión,duración de cada sesión, una descripción y el creador de esta sesión.
