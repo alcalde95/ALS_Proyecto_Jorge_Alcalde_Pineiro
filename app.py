@@ -37,7 +37,6 @@ def unauthorized():
 
 @app.route("/", methods=["GET", "POST"])
 def land():
-    print(flask_login.current_user)
     elem = {"user": flask_login.current_user, "isAunthenticated": flask_login.current_user.is_authenticated}
     return flask.render_template("index.html", **elem)
 
@@ -49,4 +48,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5000)

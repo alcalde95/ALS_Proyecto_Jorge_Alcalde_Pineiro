@@ -152,7 +152,6 @@ def class_sessions_clients_unsubscribe(id):
     clase = srp.find_first(Clase, lambda c: c.id == id)
     session = list(srp.filter(Session, lambda s: s.class_id == id and s.date == date))
     if clase is not None and session is not None:
-        print(id, date, instructor, flask_login.current_user.email)
         inscription = srp.find_first(Inscription, lambda i: i.class_id == id and i.date == date and i.instructor == instructor and i.user == flask_login.current_user.email)
         if inscription is not None:
 
