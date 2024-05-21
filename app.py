@@ -21,11 +21,7 @@ app, lm, srp = create_app()
 app.register_blueprint(users_bp)
 app.register_blueprint(classes_bp)
 app.register_blueprint(sessions_bp)
-# ver los blueprints en la documentación de Flask
-# app/
-# usuario : añadir,borrar,modificar -> 1 blueprint
-# libros: añadir,borrar,modificar -> 1 blueprint
-# El tema 16 es sobre bootstrap. Se puede usar algún framework
+
 @lm.user_loader
 def user_loader(id: str) -> User:
     return User.find(srp, id)
