@@ -59,9 +59,10 @@ Se debe tener instalado:
 
 Primero necesita tener un servidor Redis levantado y en ejecución
 
-A continuación se deberá ejecutar setUp.py, que creará el usuario admin.
+A continuación se deberá ejecutar setUp.py, que creará el usuario admin, dos usuarios: test@test.test y test2@test.test, ambos con la contraseña test1234, una clase para test@test.test,una sesión para esta calse y una inscripción de test2 a esta sesión.
+```py
 python setUp.py
-
+```
 Una vez listo, se ejecutará app.py,que levantará el servidor y nos indicará por la consola en qué puerto será levantado. Una vez levantado estaría todo listo
 
 
