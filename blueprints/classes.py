@@ -60,7 +60,7 @@ def edit_class(id):
                 flask.flash("La duración debe ser mayor a 0")
                 update = False
         if len(descripcion) < 20:
-            flask.flash("La duración debe ser mayor a 20 caracteres")
+            flask.flash("La descripción debe tener una longitud mayor a 20 caracteres")
             update = False
         if len(nombre) < 3:
             flask.flash("El nombre debe ser mayor a 3 caracteres")
@@ -144,7 +144,7 @@ def myClasses():
                 flask.flash("La duración debe ser mayor a 0")
                 insert = False
         if len(descripcion) < 20:
-            flask.flash("La duración debe ser mayor a 20 caracteres")
+            flask.flash("La descripción debe tener una longitud mayor a 20 caracteres")
             insert = False
         if len(nombre) < 3:
             flask.flash("El nombre debe ser mayor a 3 caracteres")
